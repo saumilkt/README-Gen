@@ -248,3 +248,77 @@ const questions = [
         }
     }
 ];
+// array of prompts for adding screenshots
+const screenshotQues = [
+    {
+        type: 'input',
+        name: 'screenshotLink',
+        message: 'Please provide a link for your screenshot. (Required)',
+        validate: screenshotLinkInput => {
+            if (screenshotLinkInput) {
+                return true;
+            } else {
+                console.log('Please provide a link for your screenshot!')
+                return false;
+            }
+        }
+    },
+    {
+        type: 'input',
+        name: 'screenshotAlt',
+        message: 'Please provide alt text for your screenshot. (Required)',
+        validate: screenshotAltInput => {
+            if (screenshotAltInput) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    },
+    {
+        type: 'input',
+        name: 'screenshotDesc',
+        message: 'Please provide a description of your screenshot. (Optional)'
+    },
+    {
+        type: 'confirm',
+        name: 'confirmAddScreenshot',
+        message: 'Would you like to add another screenshot?',
+        default: false
+    }
+];
+// array of prompts for adding credits
+const creditQues = [
+    {
+        type: 'input',
+        name: 'creditName',
+        message: 'Please give your credit a name. (Required)',
+        validate: creditName => {
+            if (creditName) {
+                return true;
+            } else {
+                console.log('Please enter a name for the credit!');
+                return false;
+            }
+        }
+    },
+    {
+        type: 'input',
+        name: 'creditLink',
+        message: 'Please provide a link for the credit.  (Required)',
+        validate: creditLink => {
+            if (creditLink) {
+                return true;
+            } else {
+                console.log('Please enter a name for the credit!');
+                return false;
+            }
+        }
+    },
+    {
+        type: 'confirm',
+        name: 'confirmAddCredit',
+        message: 'Would you like to add another credit?',
+        default: false
+    }
+]
