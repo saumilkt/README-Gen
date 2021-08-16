@@ -119,3 +119,76 @@ const createCredits = creditItem => {
       return '';
   }
 };
+// function to generate markdown for README
+function generateMarkdown(data) {
+  const { title, github, repo, license } = data;
+  let readmeContents = '';
+  const sectionArr = [
+      {
+          header: 'Installation',
+          content: createInstallation(data.installation)
+      },
+      {
+          header: 'Usage',
+          content: createUsage(data.usage)
+      },
+      {
+          header: 'Screenshots',
+          content: createScreenshots(data.screenshots)
+      },
+      {
+          header: 'Built With',
+          content: createBuiltWith(data['built with'])
+      },
+      {
+          header: 'License',
+          content: createLicense(license)
+      },
+      {
+          header: 'Contributing', 
+          content: data.contributing 
+      },
+      {
+          header: 'Tests',
+          content: createTest(data.tests)
+      },
+      {
+          header: 'Questions',
+          content: createQuestions(data.questions, github, repo)
+      },
+      {
+          header: 'Credits',
+          content: createCredits(data.credits)
+      },
+  ];
+
+  // adds each README section if contents for the section exists
+  sectionArr.forEach((sectionItem) => {
+      if (sectionItem.content && sectionItem.header === 'Screenshots') {
+          readmeContents += `### ${sectionItem.header}
+${sectionItem.content}
+`
+      } else if (sectionItem.content) {
+      readmeContents += `## ${sectionItem.header}
+${sectionItem.content}
+  
+`;
+      }
+  });
+  return `# ${title}
+[![Issues](https://img.shields.io/github/issues/${github}/${
+  repo
+})](https://github.com/${github}/${
+  repo
+}/issues) [![Issues](https://img.shields.io/github/contributors/${
+  github
+}/${repo})](https://github.com/${github}/${
+  repo
+}/graphs/contributors) ${addLicenseBadge(license)}
+## Description
+${createDescription(title, data.description, data.link)}
+## Contents
+${createTableOfContents(sectionArr)}
+${readmeContents}`;
+}
+module.exports = generateMarkdown;
