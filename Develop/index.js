@@ -322,3 +322,87 @@ const creditQues = [
         default: false
     }
 ]
+// recursive function for adding screenshots
+addScreenshots = readmeData => {
+    
+    // initiates screenshot array
+    if (!readmeData.screenshots) {
+        readmeData.screenshots = [];
+    }
+    console.log(`
+==================
+Add New Screenshot
+==================
+    `);
+    return inquirer.prompt(screenshotQues)
+    .then(screenshotData => {
+        // adds the screenshot to the array
+        readmeData.screenshots.push(screenshotData);
+        // will call addScreenshots again based on user input
+        if (screenshotData.confirmAddScreenshot) {
+            return addScreenshots(readmeData);
+        } else {
+            return readmeData;
+        };
+    });
+};
+// recursive function for adding credits
+addCredits = readmeInfo => {
+    
+    // initiates array for credits
+    if (!readmeInfo.credits) {
+        readmeInfo.credits = [];
+    };
+    console.log(`
+==============
+Add New Credit
+==============
+    `);
+    return inquirer.prompt(creditQues)
+    .then(creditData => {
+        // adds credits to array
+        readmeInfo.credits.push(creditData);
+        // will call addCredits again based on user input
+        if (creditData.confirmAddCredit) {
+            return addCredits(readmeInfo);
+        } else {
+            return readmeInfo;
+        }
+    });
+};
+// function to write README file
+function writeToFile(fileName, data) {
+    fs.writeFile(`./dist/${fileName}`, data, err => {
+        if (err) {
+            throw err
+        };
+        console.log('README created!')
+    });
+};
+// function to initialize program
+function init() {
+    return inquirer.prompt(questions);
+};
+// function call to initialize program
+init()
+    .then(userResponse => { 
+        // calls function to add screenshots based on user selection
+        if (userResponse.contents.indexOf('Screenshots') > -1) {
+            return addScreenshots(userResponse);
+        } else {
+            return userResponse;
+        }
+    })
+    .then(response => {
+        // calls function to add credits based on user selection
+        if (response.contents.indexOf('Credits') > -1) {
+            return addCredits(response);
+        } else {
+            return response;
+        }
+    })
+    .then(answers => generateMarkdown(answers))
+    .then(generatedReadme => writeToFile('README.md', generatedReadme))
+    .catch(err => {
+        console.log(err);
+    });
