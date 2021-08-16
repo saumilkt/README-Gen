@@ -34,3 +34,88 @@ const createTableOfContents = contentsArr => {
   });
   return contentsList;
 };
+// creates installation section
+const createInstallation = install => {
+  if (install) {
+      return `To use this application, please install: 
+\`\`\`
+${install}
+\`\`\``
+  } else {
+      return '';
+  }
+};
+// creates screenshot section
+const createScreenshots = screenshotItem => {
+  let allScreenshots = '';
+  if (screenshotItem) {
+      screenshotItem.forEach(shot => {
+      allScreenshots += `![${shot.screenshotAlt}](${shot.screenshotLink})
+${shot.screenshotDesc}
+`;
+  });
+  return `${allScreenshots}`;
+  } else {
+      return '';
+  }
+};
+
+// creates built with section
+const createBuiltWith = builtWith =>{
+  let allTechnologies = '';
+
+  if (builtWith) {
+      builtWith.forEach(item => {
+          allTechnologies += `
+* ${item}`
+      });
+      return `${allTechnologies}`;
+  } else {
+      return '';
+  };
+};
+
+// creates usage section
+const createUsage = (usage, screenshots) => {
+  return `${usage} ${createScreenshots(screenshots)}`
+};
+// creates license section
+const createLicense = license => {
+  if (license) {
+      return `This application is licensed under the ${license} license.`;
+  } else {
+      return '';
+  }
+};
+const createTest = test => {
+  if (test) {
+      return `To run tests on the application, install
+\`\`\`
+${test}
+\`\`\`
+and run \`npm run test\` from the command line.`
+  } else {
+      return '';
+  };
+};
+// creates questions section
+const createQuestions = (email, github, repo) => {
+  if (email) {
+      return `If you have any questions about the repo, please [open an issue](https://github.com/${github}/${repo}/issues) or contact me via email at ${email}. You can find more of my work on my GitHub, [${github}](https://github.com/${github}/).`
+  } else {
+      return '';
+  }
+};
+// creates credits section
+const createCredits = creditItem => {
+  let allCredits = '';
+  if (creditItem) {
+      creditItem.forEach((credit) => {
+      allCredits += `* [${credit.creditName}](${credit.creditLink})
+`;
+      });
+      return allCredits;
+  } else {
+      return '';
+  }
+};
